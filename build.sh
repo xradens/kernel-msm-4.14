@@ -3,6 +3,9 @@
 # Compile script for FSociety kernel
 # Copyright (C) 2020-2021 Adithya R.
 
+export KBUILD_BUILD_USER=xradens
+export KBUILD_BUILD_HOST=localhost
+
 SECONDS=0 # builtin bash timer
 ZIPNAME="FSociety-surya-$(date '+%Y%m%d-%H%M').zip"
 TC_DIR="$(pwd)/tc/clang-19"
@@ -58,6 +61,10 @@ else
     sync_repo $AK3_DIR "https://github.com/rd-stuffs/AnyKernel3.git" "FSociety" false
     sync_repo $TC_DIR "https://bitbucket.org/rdxzv/clang-standalone.git" "19" false
 fi
+
+	sed -i "s/device\.name1=.*/device.name1=surya/" AnyKernel3/anykernel.sh
+	sed -i "s/device\.name2=.*/device.name2=karna/" AnyKernel3/anykernel.sh
+	sed -i "s/supported\.versions=.*/supported.versions=13-15/" AnyKernel3/anykernel.sh
 
 if [ ! -d "$AK3_DIR" ] || [ ! -d "$TC_DIR" ]; then
     echo "Error: Required directories are missing. Aborting the build process."
